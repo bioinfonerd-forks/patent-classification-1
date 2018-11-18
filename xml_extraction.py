@@ -53,3 +53,5 @@ def xml_extraction():
 				continue
 
 			f.close()
+
+xml_extraction()
