@@ -1,2 +1,8 @@
 .DS_Store
-ignore/
+.ipynb_checkpoints/
+clean_dataset/
+working_dataset/
+Gomez and Moens (2014) - A Survey of Automated Hierarchical Classification of Patents.pdf
+faulty files.txt
+general.txt
+paper.txt
