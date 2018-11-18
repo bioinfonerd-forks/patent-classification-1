@@ -1,7 +1,2 @@
 .DS_Store
-general.txt
-paper.txt
-test/
-train/
-Gomez and Moens (2014) - A Survey of Automated Hierarchical Classification of Patents.pdf
-ignore
+ignore/
