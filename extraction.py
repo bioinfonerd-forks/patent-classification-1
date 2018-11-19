@@ -19,7 +19,6 @@ for root, dirs, files in os.walk(directory):
 	
 	for file_ in files:
 		path = os.path.join(root, file_)
-		print(path)
 
 		if '.xml' in path:
 			
@@ -32,7 +31,7 @@ for root, dirs, files in os.walk(directory):
 
 			# encoding is necessary to avoid UnicodeEncodeError
 			f = open('%s%s.txt'
-				% (clean_directory, file_[0:-4]), 'a', encoding='utf-8')
+				% (clean_directory, file_[0:-4]), 'w+', encoding='utf-8')
 
 			# if only 1 class 'code' it's in  node before 'ips' ('ipcs')
 			for elem in root_tree.findall('ipcs'):
