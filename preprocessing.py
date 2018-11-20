@@ -4,6 +4,10 @@ from nltk import word_tokenize, pos_tag
 from textblob.wordnet import ADV, NOUN, VERB, ADJ
 from contractions import fix
 
+"""	scipt may produce error messages in regards to nltk
+	run python in terminal, then import nltk and run nltk.download;
+	in addition deprecate warnings may occur if anaconda is installed	"""
+
 f = open('/Users/paozer/Documents/patent-classification/AU9700836_18061998.txt', 'r+', encoding='utf-8')
 
 ipc = f.readline().split()
@@ -116,5 +120,4 @@ print("> to lowercase")
 words = to_lowercase(words)
 print("> lemmatizing")
 words = lemmatize(words)
-input(">")
 print(words)
