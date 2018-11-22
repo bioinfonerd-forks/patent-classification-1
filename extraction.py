@@ -3,7 +3,7 @@ import os
 
 # paths for the patent xml files & directory for clean text files
 directory = '/Users/paozer/Documents/patent-classification/working_dataset/'
-clean_directory = '/Users/paozer/Documents/patent-classification/clean_text/'
+clean_directory = '/Users/paozer/Documents/patent-classification/2_clean_text/'
 
 # first 6 files throw ParseError when running ET.parse(path)
 # meaning a <cl> is not being closed properly
