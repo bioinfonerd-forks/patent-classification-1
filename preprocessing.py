@@ -3,19 +3,11 @@ from nltk.stem import WordNetLemmatizer
 from nltk import word_tokenize, pos_tag
 from textblob.wordnet import ADV, NOUN, VERB, ADJ
 from contractions import fix
+import os
 
 """	scipt may produce error messages in regards to nltk
-	run python in terminal, then import nltk and run nltk.download;
-	in addition deprecate warnings may occur if anaconda is installed	"""
-
-f = open('/Users/paozer/Documents/patent-classification/AU9700836_18061998.txt', 'r+', encoding='utf-8')
-
-ipc = f.readline().split()
-text = f.read()
-
-f.close()
-
-# remove brakets 
+	> run python in terminal, then import nltk and run nltk.download();
+	> in addition deprecate warnings may occur if anaconda is installed	"""
 
 def replace_contractions(text): #works
 	return fix(text)
@@ -61,9 +53,8 @@ def to_lowercase(words):
 	for word in words:
 		new_words.append(word.lower())
 	
-	return new_words
+	return new_words # works
 
-# lemmatization
 def lemmatize(words): # need to investigate words which throw KeyError
 	
 	tag_words = pos_tag(words) # seems to work correctly
@@ -102,22 +93,40 @@ def lemmatize(words): # need to investigate words which throw KeyError
 			new_words.append(lemmatized_word)
 
 		except KeyError:
-			print('KeyError on tag @ ', word[0])
+			# need to analyse 
+			# print('KeyError on tag @ ', word[0]) 
+			pass
 		
 	return new_words
 
-print("> removing contractions")
-text = replace_contractions(text)
-print("> tokenising text")
-words = tokenise_text(text)
-print("> removing numbers")
-words = remove_numbers(words)
-print("> removing stopwords")
-words = remove_stopwords(words)
-print("> remove punctuation")
-words = remove_punctuation(words)
-print("> to lowercase")
-words = to_lowercase(words)
-print("> lemmatizing")
-words = lemmatize(words)
-print(words)
+def normalize(text):
+	text = replace_contractions(text)
+	words = tokenise_text(text)
+	words = remove_numbers(words)
+	words = remove_stopwords(words)
+	words = remove_punctuation(words)
+	words = to_lowercase(words)
+	words = lemmatize(words)
+
+	return words# works
+
+directory = '/Users/paozer/Documents/patent-classification/2_clean_text/'
+clean_directory = '/Users/paozer/Documents/patent-classification/3_clean_feature/'
+
+for file in os.listdir(directory):
+
+	f_source = open(directory + file, 'r+', encoding='utf-8')
+
+	ipc = f_source.readline().split()
+	text = f_source.read()
+
+	f_source.close()
+
+	words = normalize(text)
+
+	# think about how to store the data more efficiently
+	# text files do not seem appropriate
+	f_destination = open(clean_directory + file, 'w', encoding='utf-8')
+	f_destination.write('\n'.join(ipc))
+	f_destination.write('\n')
+	f_destination.write('\n'.join(words))
