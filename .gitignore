@@ -7,3 +7,6 @@ faulty_files.txt
 general.txt
 paper.txt
 clean_text/
+1_clean_dataset/
+2_clean_text/
+3_clean_feature/
