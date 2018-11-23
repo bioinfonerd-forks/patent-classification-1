@@ -37,7 +37,9 @@ def remove_stopwords(words): #works
 
 # evtl. remove non ascii 
 
-def remove_punctuation(words): # works maybe improve
+# must improve! 
+# check out clean text files where some punctuation has not been removed
+def remove_punctuation(words):
 	new_words = []
 	punctuation = ['.', ',', '?', '!', ';', "'", '"', ':', '(', ')']
 
