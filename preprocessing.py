@@ -3,6 +3,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk import word_tokenize, pos_tag
 from textblob.wordnet import ADV, NOUN, VERB, ADJ
 from contractions import fix
+from re import sub
 import os
 
 """	scipt may produce error messages in regards to nltk
@@ -42,11 +43,13 @@ def remove_stopwords(words): #works
 def remove_punctuation(words):
 	new_words = []
 	punctuation = ['.', ',', '?', '!', ';', "'", '"', ':', '(', ')']
+	regex = r"[,?!;':()]\w*"
 
 	for word in words:		
 		if word not in punctuation:
-			new_words.append(word)
-	
+			new_word = sub(regex, "", word)
+			new_words.append(new_word)
+
 	return new_words
 
 def to_lowercase(words):
@@ -109,6 +112,7 @@ def normalize(text):
 	words = remove_punctuation(words)
 	words = to_lowercase(words)
 	words = lemmatize(words)
+
 
 	return words# works
 
