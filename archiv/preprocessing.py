@@ -3,6 +3,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk import word_tokenize, pos_tag
 from textblob.wordnet import ADV, NOUN, VERB, ADJ
 from contractions import fix
+from re import sub
 import os
 
 """	scipt may produce error messages in regards to nltk
@@ -37,24 +38,18 @@ def remove_stopwords(words): #works
 
 # evtl. remove non ascii 
 
-def remove_punctuation(words): # works maybe improve
+# must improve! 
+# check out clean text files where some punctuation has not been removed
+def remove_punctuation(words):
 	new_words = []
-	punctuation = ['.', ',', '?', '!', ';', "'", '"', ':', '(', ')', '§', '$', '%']
-    
-	for word in words:
-		# Remove pure punctuations
+	punctuation = ['.', ',', '?', '!', ';', "'", '"', ':', '(', ')']
+	regex = r"[,?!;':()]\w*"
+
+	for word in words:		
 		if word not in punctuation:
-			
-			# Remove words containing punctuations
-			p_flag = False
-			for p in punctuation:
-				
-				if p in word:
-					p_flag = True
-			if not p_flag:
-				new_words.append(word)
-    
-	
+			new_word = sub(regex, "", word)
+			new_words.append(new_word)
+
 	return new_words
 
 def to_lowercase(words):
@@ -112,15 +107,32 @@ def lemmatize(words): # need to investigate words which throw KeyError
 def normalize(text):
 	text = replace_contractions(text)
 	words = tokenise_text(text)
-	
-	
-	# artificially limit number of words
-	words = words[:200]
-	
 	words = remove_numbers(words)
 	words = remove_stopwords(words)
 	words = remove_punctuation(words)
 	words = to_lowercase(words)
 	words = lemmatize(words)
 
-	return words
+
+	return words# works
+
+directory = '/Users/paozer/Documents/patent-classification/2_clean_text/'
+clean_directory = '/Users/paozer/Documents/patent-classification/3_clean_feature/'
+
+for file in os.listdir(directory):
+
+	f_source = open(directory + file, 'r+', encoding='utf-8')
+
+	ipc = f_source.readline().split()
+	text = f_source.read()
+
+	f_source.close()
+
+	words = normalize(text)
+
+	# think about how to store the data more efficiently
+	# text files do not seem appropriate
+	f_destination = open(clean_directory + file, 'w', encoding='utf-8')
+	f_destination.write('\n'.join(ipc))
+	f_destination.write('\n')
+	f_destination.write('\n'.join(words))
